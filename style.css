@@ -17,15 +17,28 @@ body {
     height: 80px;
     background-color: peachpuff;
   }
+  span{
+    display: inline-block;
+    /* margin:40px; */
+  }
+  .flipV{
+    transform: scale(-1,1);
+    color: blanchedalmond;
+    -moz-transform: scale(-1,1);
+    -webkit-transform: scale(-1,1);
+    -o-transform: scale(-1,1);
+    -ms-transform: scale(-1,1);
+    transform: scale(-1,1);
+  }
   #cover {
     display: flex;
-    background-color: palevioletred;
+    background-color: burlywood;
     width: 76.5%;
     height: 80px;
     margin-left: 23.5%;
     font-size: 80px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     color: blanchedalmond;
   }
@@ -37,26 +50,93 @@ body {
     margin-left: 23.5%;
   }
   .parent-div {
-    background-color: lightblue;
+    /* background-color: lightblue; */
     width: 70vw;
     min-height: 70vh;
   }
   .gameboard { 
     display: flex;
     justify-content: space-between;
-    background-color: lightgreen;
+    /* background-color: lightgreen; */
     min-height: 200px;
     margin: 12px 0px;
   }
   .pieces{
     width: 22%;
-    min-height: 500px;
-    background-color: papayawhip;
+    min-height: 400px;
+    /* background-color: papayawhip; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
   }
+.button-black{
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: black;
+  min-height: 60px;
+  min-width: 100%;
+}
+.button-black:hover{
+  cursor: grab;
+}
+.button-blue{
+  border: 1px solid rgb(40, 23, 169);
+  border-radius: 10px;
+  background-color: rgb(40, 23, 169);
+  min-height: 60px;
+  min-width: 100%;
+}
+.button-blue:hover{
+  color: purple;
+  cursor: grab;
+}
+.button-yellow{
+  border: 1px solid rgb(236, 217, 14);
+  border-radius: 10px;
+  background-color: rgb(236, 217, 14);
+  min-height: 60px;
+  min-width: 100%;
+}
+.button-yellow:hover{
+  cursor: grab;
+}
+.button-red{
+  border: 1px solid orangered;
+  border-radius: 10px;
+  background-color: orangered;
+  min-height: 60px;
+  min-width: 100%;
+}
+.button-red:hover{
+  color: purple;
+  cursor: grab;
+}
+.button-green{
+  border: 1px solid rgb(30, 179, 57);
+  border-radius: 10px;
+  background-color: rgb(30, 179, 57);
+  min-height: 60px;
+  min-width: 100%;
+}
+.button-green:hover{
+  cursor: grab;
+}
+.button-white{
+  border: 1px solid lightgoldenrodyellow;
+  border-radius: 10px;
+  background-color: lightgoldenrodyellow;
+  min-height: 60px;
+  min-width: 100%;
+}
+.button-white:hover{
+  cursor: grab;
+}
+
   .guess {
     width: 50%;
     min-height: 400px;
-    background-color: lightcoral;
+    background-color: burlywood;
   }
   .feedback {
     width: 25%;
@@ -65,5 +145,5 @@ body {
   }
   .footer {
     min-height: 100px;
-    background-color: white;
+    background-color: beige;
   }
