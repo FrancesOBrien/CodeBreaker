@@ -1,0 +1,69 @@
+body {
+    background-color: lightgray;
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    text-align: center;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+  h2{
+    width: 22%;
+    height: 80px;
+    background-color: peachpuff;
+  }
+  #cover {
+    display: flex;
+    background-color: palevioletred;
+    width: 76.5%;
+    height: 80px;
+    margin-left: 23.5%;
+    font-size: 80px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    justify-content: space-around;
+    align-items: center;
+    color: blanchedalmond;
+  }
+  #solution{
+    display: none;
+    background-color: blanchedalmond;
+    width: 76.5%;
+    height: 80px;
+    margin-left: 23.5%;
+  }
+  .parent-div {
+    background-color: lightblue;
+    width: 70vw;
+    min-height: 70vh;
+  }
+  .gameboard { 
+    display: flex;
+    justify-content: space-between;
+    background-color: lightgreen;
+    min-height: 200px;
+    margin: 12px 0px;
+  }
+  .pieces{
+    width: 22%;
+    min-height: 500px;
+    background-color: papayawhip;
+  }
+  .guess {
+    width: 50%;
+    min-height: 400px;
+    background-color: lightcoral;
+  }
+  .feedback {
+    width: 25%;
+    min-height: 400px;
+    background-color: lightgoldenrodyellow;
+  }
+  .footer {
+    min-height: 100px;
+    background-color: white;
+  }
