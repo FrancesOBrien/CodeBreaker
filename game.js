@@ -67,3 +67,32 @@ function checkWin(feedback){
 //checkWin called on each guess
 
 //Reveal code
+
+
+
+//listen for click on color buttons, turn next open circle corresponding color!
+
+const blackBtn = document.getElementById("button-black");
+blackBtn.addEventListener('click', () => {
+    console.log("black button clicked")
+})
+const blueBtn = document.getElementById("button-blue");
+blueBtn.addEventListener('click', () => {
+    console.log("blue button clicked")
+})
+const yellBtn = document.getElementById("button-yellow");
+yellBtn.addEventListener('click', () => {
+    console.log("yellow button clicked")
+})
+const redBtn = document.getElementById("button-red");
+redBtn.addEventListener('click', () => {
+    console.log("red button clicked")
+})
+const greenBtn = document.getElementById("button-green");
+greenBtn.addEventListener('click', () => {
+    console.log("green button clicked")
+})
+const whiteBtn = document.getElementById("button-white");
+whiteBtn.addEventListener('click', () => {
+    console.log("white button clicked")
+})

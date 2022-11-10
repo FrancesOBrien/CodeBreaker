@@ -11,6 +11,8 @@ body {
     text-align: center;
     color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 100%;
+    
   }
   h2{
     width: 22%;
@@ -52,6 +54,12 @@ body {
     height: 80px;
     margin-left: 23.5%;
   }
+  .code{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
   .parent-div {
     /* background-color: lightblue; */
     width: 70vw;
@@ -73,66 +81,66 @@ body {
     justify-content: space-around;
     align-items: center;
   }
-.button-black{
+#button-black{
   border: 1px solid black;
   border-radius: 10px;
   background-color: black;
   height: 60px;
   width: 100%;
 }
-.button-black:hover{
+#button-black:hover{
   cursor: grab;
 }
-.button-blue{
+#button-blue{
   border: 1px solid rgb(40, 23, 169);
   border-radius: 10px;
   background-color: rgb(40, 23, 169);
   height: 60px;
   width: 100%;
 }
-.button-blue:hover{
+#button-blue:hover{
   color: purple;
   cursor: grab;
 }
-.button-yellow{
+#button-yellow{
   border: 1px solid rgb(236, 217, 14);
   border-radius: 10px;
   background-color: rgb(236, 217, 14);
   height: 60px;
   width: 100%;
 }
-.button-yellow:hover{
+#button-yellow:hover{
   cursor: grab;
 }
-.button-red{
+#button-red{
   border: 1px solid orangered;
   border-radius: 10px;
   background-color: orangered;
   height: 60px;
   width: 100%;
 }
-.button-red:hover{
+#button-red:hover{
   color: purple;
   cursor: grab;
 }
-.button-green{
+#button-green{
   border: 1px solid rgb(30, 179, 57);
   border-radius: 10px;
   background-color: rgb(30, 179, 57);
   height: 60px;
   width: 100%;
 }
-.button-green:hover{
+#button-green:hover{
   cursor: grab;
 }
-.button-white{
+#button-white{
   border: 1px solid lightgoldenrodyellow;
   border-radius: 10px;
   background-color: lightgoldenrodyellow;
   height: 60px;
   width: 100%;
 }
-.button-white:hover{
+#button-white:hover{
   cursor: grab;
 }
 
