@@ -4,10 +4,11 @@ let guess = []
 let guessIndex = 0
 
 //generate code one time for entire game
-//function getCode will generate an array of 4 randomly from this array, include duplicates
-const colors = ['red', 'yellow', 'green', 'blue', 'black', 'white']
+//function getCode will generate an array of 4 randomly from colors[]
+//function displayCode will load the generated code (secret) into the circles in the solution div
+const colors = ['orangered', 'rgb(40, 23, 169)', 'rgb(236, 217, 14)', 'rgb(30, 179, 57)', 'black', 'lightgoldenrodyellow']
 
-function getCode(colors){
+let getCode = (colors) => {
 const code = []
     for (let i = 0; i < 4; i++){
     code.push(colors[Math.floor(Math.random() * colors.length)]);
@@ -16,14 +17,20 @@ const code = []
 }
 let secret = getCode(colors)
 
-//get player input: up to 10 guess while code remains constant
-//player inputs their guess: 
-//six color buttons on the screen with event listners to push that color into guess array!
 
-//demo round, we'll enter code and guess to check our feedback
-// const code = ['white', 'green', 'yellow', 'red']
+let soln = (document.querySelector(".code"))
 
-let guessCount = 0
+let displayCode = () => {
+    for (let i = 0; i < secret.length; i++){
+        soln.children[i].style.backgroundColor = secret[i]
+    }
+}
+
+getCode(colors)
+console.log(secret)
+displayCode()
+
+
 //every time user enters guess, guessCount++
 //if guessCount == 10, game over
 
@@ -35,47 +42,54 @@ let guessCount = 0
 
 function getFeedback(guess, secret) {
 const feedback = []
+// console.log(guess)
+// console.log(secret)
 for (let i = 0; i < 4; i++) {
     if (guess[i] == secret[i]){
-    feedback.push('*')
+    feedback.push('red')
     }
 }
 for (let i = 0; i < 4; i++){
     for (let j = 0; j < 4; j++ ){
         if (i !== j){
             if (guess[i] == secret[j]) {
-                feedback.push('+')
+                feedback.push('white')
             }
         } 
     }
 }
+// console.log(feedback)
 feedback.sort()
-console.log(feedback)
-console.log(checkWin(feedback))
+return feedback
+// console.log(feedback)
 }
-console.log(guess)
-getFeedback(guess, secret)
+//now clues is a global variable that contains the feedback array
+let clues = getFeedback(guess, secret)
 
-function checkWin(feedback){
-    let win = true
-    for (let i = 0; i < 4; i++){
-        if (feedback[i] !== '*') {
-            win = false
-        } 
-    } return win
-}
+// function checkWin(feedback){
+//     let win = true
+//     for (let i = 0; i < 4; i++){
+//         if (feedback[i] !== 'red') {
+//             win = false
+//         } 
+//     } if (guessIndex = 11){
+//         win = false
+//     }
+//     return win
+// }
 
-//display feedback: * = right color, right place, + = right color
-
+//display feedback: red = right color, right place, white = right color
 
 //repeat input/feedback until 10 wrong guesses (you lose) or one right guess(you win)
-//checkWin called on each guess
+//checkWin called on each complete guess
 
 //Reveal code
-//calculate guess
+//calculate guess: 
+//function to record each guess on a given guessIndex in an array of guesses
+//then update the DOM and move to the next guessIndex after 4 guesses
+//updateGuessDOM takes the guess entered and changes the circle (and it's border) to the corresponding color
 let calculateGuess = () => {
     guesses[guessIndex] = guess
-    console.log(guesses)
     updateGuessDOM()
     if (guess.length >= 4){
         guess = []
@@ -91,8 +105,9 @@ let updateGuessDOM = () => {
     }
 }
 
-
 //listen for click on color buttons, turn next open circle corresponding color!
+//Huge thanks to Kasper for guiding me through this--created a 2D array 
+//click event: add the corresponding color to the array of guesses, call calculateGuess function.
 
 const blackBtn = document.getElementById("button-black");
 blackBtn.addEventListener('click', () => {
@@ -124,9 +139,56 @@ whiteBtn.addEventListener('click', () => {
     guess.push("lightgoldenrodyellow")
     calculateGuess()
 })
-
+//2D array for guess board
 let circles = Array.from(document.querySelectorAll(".guess"))
 let guessElements = circles.map(el => {
     return el.children
 })
-console.log(guessElements)
+//2D array for feedback board
+let reply = Array.from(document.querySelectorAll(".feedback"))
+let feedbackElements = reply.map(el => {
+    // console.log(el.children)
+    return el.children
+})
+// console.log(feedbackElements)
+
+//struggling with feedback display, let's psuedocode out the goals:
+//when the guess[] is completed, ie, when the guess[3] is entered via click on color button, I need to compare that 4-element array to the 4-element array called code[] stored in the global variable secret.
+//for every index that matches between code[] and guess[], one circle in the feedback row should display red
+//for every color included in the guess[] that is also included in the code[], but is not in the same index, one circle in the feedback row should display white
+//that will display the feedback for that guess
+//if the feedback displays all red, the game is over with a "you win" modal that reveals the solution div
+//if the feedback does not display all red on the 10th guess, game is over with a "you lose" modal that reveals the solution div
+
+
+//other features to add
+//restart button
+//help button w/ modal
+
+const restartBtn = document.getElementById("restartBtn");
+restartBtn.addEventListener("click", () => {
+    window.location.reload();
+})
+
+//open help modal
+const helpBtn = document.getElementById("helpBtn");
+helpBtn.addEventListener("click", (openHelp))
+function openHelp(){
+    helpModal.style.display = 'flex';
+}
+
+//close help modal
+const closeBtn = document.getElementsByClassName("closeBtn")[0];
+closeBtn.addEventListener("click", (closeModal));
+function closeModal(){
+    helpModal.style.display = 'none';
+}
+
+// //listen for outside click
+// window.addEventListener("click", (clickOutside));
+// function clickOutside(e){
+//     if (e.target == helpModal){
+//         helpModal.style.display = 'none';
+//     }
+// }
+
