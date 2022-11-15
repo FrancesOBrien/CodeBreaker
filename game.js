@@ -2,11 +2,12 @@
 let guesses = []
 let guess = [] 
 let guessIndex = 0
+let feedbackIndex = guessIndex
 
 //generate code one time for entire game
 //function getCode will generate an array of 4 randomly from colors[]
 //function displayCode will load the generated code (secret) into the circles in the solution div
-const colors = ['orangered', 'rgb(40, 23, 169)', 'rgb(236, 217, 14)', 'rgb(30, 179, 57)', 'black', 'lightgoldenrodyellow']
+const colors = ['orangered', 'rgb(49, 164, 222)', 'rgb(236, 217, 14)', 'rgb(30, 179, 57)', 'black', 'lightgoldenrodyellow']
 
 let getCode = (colors) => {
 const code = []
@@ -39,6 +40,29 @@ displayCode()
 //compare guess array to code array and if index and color are a match, generate * for every match
 //compare guess array to code array and if guess array includes any of the colors from code array, generate + for every match
 // use .sort() to equalize feedback array
+//problem: if secret contains duplicate colors, getFeedback generates a red and a white for each correct guess. should be just a red. How to make an if/else that has for loops inside it
+
+// function getFeedback(guess, secret) {
+// const feedback = []
+// // console.log(guess)
+// // console.log(secret)
+// for (let i = 0; i < 4; i++) {
+//     if (guess[i] == secret[i]){
+//     feedback.push('red')
+//     } else 
+//     for (let i = 0; i < 4; i++){
+//             for (let j = 0; j < 4; j++ ){
+//                 if (i !== j){
+//                     if (guess[i] == secret[j]) {
+//                         feedback.push('white')
+//                     }
+//                 } 
+// }
+//     } }
+//     feedback.sort()
+//     console.log(feedback)
+//     return feedback
+// }
 
 function getFeedback(guess, secret) {
 const feedback = []
@@ -58,12 +82,11 @@ for (let i = 0; i < 4; i++){
         } 
     }
 }
-// console.log(feedback)
 feedback.sort()
-return feedback
 // console.log(feedback)
+return feedback
 }
-//now clues is a global variable that contains the feedback array
+//clues is a global variable that contains the feedback array
 let clues = getFeedback(guess, secret)
 
 // function checkWin(feedback){
@@ -92,7 +115,13 @@ let calculateGuess = () => {
     guesses[guessIndex] = guess
     updateGuessDOM()
     if (guess.length >= 4){
-        guess = []
+        console.log(`the guess is ${guess}`)
+        console.log(`the secret is ${secret}`)
+        clues = getFeedback(guess, secret)
+        console.log(`the clues are ${clues}`)
+        console.log(feedbackElements)
+        updateFeedbackDOM()
+        guess = [] //resets guess array for next guessIndex
         guessIndex++
     } 
 }
@@ -105,10 +134,19 @@ let updateGuessDOM = () => {
     }
 }
 
-//listen for click on color buttons, turn next open circle corresponding color!
-//Huge thanks to Kasper for guiding me through this--created a 2D array 
-//click event: add the corresponding color to the array of guesses, call calculateGuess function.
+let reply = Array.from(document.querySelectorAll(".feedback"))
+let feedbackElements = reply.map(el => {
+    console.log(el.children)
+    return el.children
+})
 
+let updateFeedbackDOM = () => { 
+        for (let j = 0; j < feedbackElements[guessIndex].length; j++){
+        // console.log(clues)
+        feedbackElements[guessIndex][j].style.backgroundColor = clues[j]
+    }
+}
+//listen for click on color buttons, update DOM with guesses
 const blackBtn = document.getElementById("button-black");
 blackBtn.addEventListener('click', () => {
     guess.push("black")
@@ -116,7 +154,7 @@ blackBtn.addEventListener('click', () => {
 })
 const blueBtn = document.getElementById("button-blue");
 blueBtn.addEventListener('click', () => {
-    guess.push("rgb(40, 23, 169)")
+    guess.push("rgb(49, 164, 222)")
     calculateGuess()
 })
 const yellBtn = document.getElementById("button-yellow");
@@ -144,12 +182,9 @@ let circles = Array.from(document.querySelectorAll(".guess"))
 let guessElements = circles.map(el => {
     return el.children
 })
-//2D array for feedback board
-let reply = Array.from(document.querySelectorAll(".feedback"))
-let feedbackElements = reply.map(el => {
-    // console.log(el.children)
-    return el.children
-})
+// //2D array for feedback board
+
+
 // console.log(feedbackElements)
 
 //struggling with feedback display, let's psuedocode out the goals:
@@ -157,14 +192,13 @@ let feedbackElements = reply.map(el => {
 //for every index that matches between code[] and guess[], one circle in the feedback row should display red
 //for every color included in the guess[] that is also included in the code[], but is not in the same index, one circle in the feedback row should display white
 //that will display the feedback for that guess
+//i++ moves on to the next guess 
+//checkWin() => 
 //if the feedback displays all red, the game is over with a "you win" modal that reveals the solution div
 //if the feedback does not display all red on the 10th guess, game is over with a "you lose" modal that reveals the solution div
 
 
-//other features to add
 //restart button
-//help button w/ modal
-
 const restartBtn = document.getElementById("restartBtn");
 restartBtn.addEventListener("click", () => {
     window.location.reload();
@@ -184,11 +218,20 @@ function closeModal(){
     helpModal.style.display = 'none';
 }
 
-// //listen for outside click
-// window.addEventListener("click", (clickOutside));
-// function clickOutside(e){
-//     if (e.target == helpModal){
-//         helpModal.style.display = 'none';
-//     }
-// }
+//end game modals
+
+//you win modal
+//when feedback row is all red
+//switch cover display to none and solution display to flex
+//pop up modal with you win message
+//Play again? button with restart functionality
+//bonus--if you win in 5 or fewer guesses, add "impressive!" message
+//bonus--if you win in the final guess, add "phew" message
+
+//you lose modal
+//when guessIndex = 10 (ie, you have submitted the 10th guess, guessIndex[9]):
+//switch cover display to none and solution display to flex
+//pop up modal with you fail message
+//hint: a red dot means one of your guess colors is correct, but 
+//Try again? button with restart functionality
 
