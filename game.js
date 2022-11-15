@@ -42,27 +42,6 @@ displayCode()
 // use .sort() to equalize feedback array
 //problem: if secret contains duplicate colors, getFeedback generates a red and a white for each correct guess. should be just a red. How to make an if/else that has for loops inside it
 
-// function getFeedback(guess, secret) {
-// const feedback = []
-// // console.log(guess)
-// // console.log(secret)
-// for (let i = 0; i < 4; i++) {
-//     if (guess[i] == secret[i]){
-//     feedback.push('red')
-//     } else 
-//     for (let i = 0; i < 4; i++){
-//             for (let j = 0; j < 4; j++ ){
-//                 if (i !== j){
-//                     if (guess[i] == secret[j]) {
-//                         feedback.push('white')
-//                     }
-//                 } 
-// }
-//     } }
-//     feedback.sort()
-//     console.log(feedback)
-//     return feedback
-// }
 
 function getFeedback(guess, secret) {
 const feedback = []
@@ -83,23 +62,26 @@ for (let i = 0; i < 4; i++){
     }
 }
 feedback.sort()
+feedback.slice(0,3)
 // console.log(feedback)
 return feedback
 }
 //clues is a global variable that contains the feedback array
 let clues = getFeedback(guess, secret)
 
-// function checkWin(feedback){
-//     let win = true
-//     for (let i = 0; i < 4; i++){
-//         if (feedback[i] !== 'red') {
-//             win = false
-//         } 
-//     } if (guessIndex = 11){
-//         win = false
-//     }
-//     return win
-// }
+
+
+function checkWin(){
+    let win = true
+    for (let i = 0; i < clues.length; i++){
+        if (clues[i] !== 'red') {
+            win = false
+        } 
+    } if (guessIndex = 10){
+        win = false
+    }
+    return win
+}
 
 //display feedback: red = right color, right place, white = right color
 
@@ -115,11 +97,11 @@ let calculateGuess = () => {
     guesses[guessIndex] = guess
     updateGuessDOM()
     if (guess.length >= 4){
-        console.log(`the guess is ${guess}`)
-        console.log(`the secret is ${secret}`)
+        // console.log(`the guess is ${guess}`)
+        // console.log(`the secret is ${secret}`)
         clues = getFeedback(guess, secret)
         console.log(`the clues are ${clues}`)
-        console.log(feedbackElements)
+        // console.log(feedbackElements)
         updateFeedbackDOM()
         guess = [] //resets guess array for next guessIndex
         guessIndex++
@@ -136,13 +118,12 @@ let updateGuessDOM = () => {
 
 let reply = Array.from(document.querySelectorAll(".feedback"))
 let feedbackElements = reply.map(el => {
-    console.log(el.children)
+    // console.log(el.children)
     return el.children
 })
 
 let updateFeedbackDOM = () => { 
         for (let j = 0; j < feedbackElements[guessIndex].length; j++){
-        // console.log(clues)
         feedbackElements[guessIndex][j].style.backgroundColor = clues[j]
     }
 }
