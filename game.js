@@ -48,13 +48,15 @@ function getFeedback(guess, secret){
             feedback.push('red')
         } else if (secret.includes(element)){
             feedback.push('black')
+        } else {
+            feedback.push('blanchedalmond')
         }
     })
     feedback.sort()
     feedback.reverse()
     return feedback
 }
-
+//SQUEEEEEEIDIDIT
 //generate feedback
 //function getFeedback compares guess[] to secret[] and generates feedback array of strings stored in global variable clues[]
 // function getFeedback(guess, secret) {
@@ -89,11 +91,17 @@ let clues = getFeedback(guess, secret)
 //         if (clues[i] !== 'red') {
 //             win = false
 //         } 
-//     } if (guessIndex = 10){
-//         win = false
-//     }
 //     return win
-// }
+// }}
+function checkWin(){
+    let win = true
+    for (let i = 0; i < clues.length; i++){
+        if (clues[i] !== 'red' || clues.includes('black')){ //win case needs to cover doubles in guess[]
+            win = false
+        }
+    } return win
+}
+
 
 //calculate guess: 
 //function to record each guess on a separate guessIndex in the array of guesses
@@ -111,10 +119,22 @@ let calculateGuess = () => {
         // console.log(`the clues are ${clues}`)
         // console.log(feedbackElements)
         updateFeedbackDOM()
+        if (checkWin() == true){
+            console.log('you win! play again?')
+            winModal.style.display = "flex"
+            cover.style.display = "none"
+            solution.style.display = "flex"
+        }
         guess = [] //resets guess array for next guessIndex
         guessIndex++
-    } 
-}
+        if (guessIndex == 10){
+            console.log('you lose, try again?')
+            loseModal.style.display = "flex"
+            cover.style.display = "none"
+            solution.style.display = "flex"
+        }
+    } }
+
 
 //2D array for guess board
 
@@ -175,8 +195,6 @@ whiteBtn.addEventListener('click', () => {
     calculateGuess()
 })
 
-// //2D array for feedback board
-
 
 // console.log(feedbackElements)
 
@@ -210,7 +228,25 @@ closeBtn.addEventListener("click", (closeModal));
 function closeModal(){
     helpModal.style.display = 'none';
 }
+const lxBtn = document.getElementById("lxBtn");
+lxBtn.addEventListener('click', (closeLose));
+function closeLose(){
+    loseModal.style.display = 'none'
+}
+const tryAgainBtn = document.getElementById("tryAgainBtn");
+tryAgainBtn.addEventListener("click", () => {
+    window.location.reload();
+})
 
+const wxBtn = document.getElementById("wxBtn");
+wxBtn.addEventListener("click", (winClose));
+function winClose(){
+    winModal.style.display = 'none'
+}
+const playAgainBtn = document.getElementById("playAgainBtn");
+playAgainBtn.addEventListener("click", () => {
+    window.location.reload();
+})
 //end game modals
 
 //you win modal
