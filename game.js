@@ -4,7 +4,7 @@ let guess = []
 let guessIndex = 0
 let feedbackIndex = guessIndex
 
-//generate code one time for entire game
+//generate code one time for each round of the game
 //function getCode will generate an array of 4 randomly from colors[]
 //function displayCode will load the generated code (secret) into the circles in the solution div
 const colors = ['orangered', 'rgb(49, 164, 222)', 'rgb(236, 217, 14)', 'rgb(30, 179, 57)', 'black', 'lightgoldenrodyellow']
@@ -28,71 +28,79 @@ let displayCode = () => {
 }
 
 getCode(colors)
-console.log(secret)
-displayCode()
+console.log(secret) //comment this out when going live or people can inspect and cheat!
+displayCode() //loads the secret code into the solution div
 
+//update getFeedback():
+//I want to check each element in a guess[] for two conditions
+//conditionRed = this color is in correct index :
+//create a for loop that checks for this condition and store that condition in an array variable
+//conditionWhite = this color is included in the code[], but in a different index
+//create the nested for loop that checks for this condition and store that condition in an array variable
+//if an element satisfies both conditions, I only want conditionRed to be expressed, conditionWhite should be muted
+//add both array variables into one array variable
 
-//every time user enters guess, guessCount++
-//if guessCount == 10, game over
+//also, each element of the guess array should only produce one element in the clue array
+function getFeedback(guess, secret){
+    const feedback = []
+    guess.forEach((element, index) => {
+        if (element === secret[index] && secret.includes(element)){
+            feedback.push('red')
+        } else if (secret.includes(element)){
+            feedback.push('black')
+        }
+    })
+    feedback.sort()
+    feedback.reverse()
+    return feedback
+}
 
 //generate feedback
-//check guess against code: compare two arrays and generate feedback
-//compare guess array to code array and if index and color are a match, generate * for every match
-//compare guess array to code array and if guess array includes any of the colors from code array, generate + for every match
-// use .sort() to equalize feedback array
-//problem: if secret contains duplicate colors, getFeedback generates a red and a white for each correct guess. should be just a red. How to make an if/else that has for loops inside it
-
-
-function getFeedback(guess, secret) {
-const feedback = []
-// console.log(guess)
-// console.log(secret)
-for (let i = 0; i < 4; i++) {
-    if (guess[i] == secret[i]){
-    feedback.push('red')
-    }
-}
-for (let i = 0; i < 4; i++){
-    for (let j = 0; j < 4; j++ ){
-        if (i !== j){
-            if (guess[i] == secret[j]) {
-                feedback.push('white')
-            }
-        } 
-    }
-}
-feedback.sort()
-feedback.slice(0,3)
-// console.log(feedback)
-return feedback
-}
+//function getFeedback compares guess[] to secret[] and generates feedback array of strings stored in global variable clues[]
+// function getFeedback(guess, secret) {
+// const feedback = []
+//     for (let i = 0; i < 4; i++) {
+//         if (guess[i] == secret[i]){
+//             feedback.push('red')
+//         }
+//     }
+//     for (let i = 0; i < 4; i++){
+//         for (let j = 0; j < 4; j++ ){
+//             if (i !== j){
+//                 if (guess[i] == secret[j]) {
+//                     feedback.push('white')
+//                 }
+//             } 
+//         }
+//     }
+//     feedback.sort() //sorts the array so all reds appear first
+//     feedback.slice(0,3) //cuts the feedback off at 4 elements to avoid excess whites
+//     return feedback
+// }
 //clues is a global variable that contains the feedback array
 let clues = getFeedback(guess, secret)
 
+//every time user enters guess, guessCount++
+//if guessIndex == 10, game over
 
+// function checkWin(){
+//     let win = true
+//     for (let i = 0; i < clues.length; i++){
+//         if (clues[i] !== 'red') {
+//             win = false
+//         } 
+//     } if (guessIndex = 10){
+//         win = false
+//     }
+//     return win
+// }
 
-function checkWin(){
-    let win = true
-    for (let i = 0; i < clues.length; i++){
-        if (clues[i] !== 'red') {
-            win = false
-        } 
-    } if (guessIndex = 10){
-        win = false
-    }
-    return win
-}
-
-//display feedback: red = right color, right place, white = right color
-
-//repeat input/feedback until 10 wrong guesses (you lose) or one right guess(you win)
-//checkWin called on each complete guess
-
-//Reveal code
 //calculate guess: 
-//function to record each guess on a given guessIndex in an array of guesses
-//then update the DOM and move to the next guessIndex after 4 guesses
-//updateGuessDOM takes the guess entered and changes the circle (and it's border) to the corresponding color
+//function to record each guess on a separate guessIndex in the array of guesses
+//then update the DOM so guesses appear as colors
+//then update the DOM so the feedback clues appear as colors
+//then move to the next guessIndex after 4 guesses
+
 let calculateGuess = () => {
     guesses[guessIndex] = guess
     updateGuessDOM()
@@ -100,13 +108,21 @@ let calculateGuess = () => {
         // console.log(`the guess is ${guess}`)
         // console.log(`the secret is ${secret}`)
         clues = getFeedback(guess, secret)
-        console.log(`the clues are ${clues}`)
+        // console.log(`the clues are ${clues}`)
         // console.log(feedbackElements)
         updateFeedbackDOM()
         guess = [] //resets guess array for next guessIndex
         guessIndex++
     } 
 }
+
+//2D array for guess board
+
+let circles = Array.from(document.querySelectorAll(".guess"))
+let guessElements = circles.map(el => {
+    return el.children
+})
+
 let updateGuessDOM = () => {
     for (let i = 0; i < guesses.length; i++){
         for (let j = 0; j < guess.length; j++){
@@ -158,11 +174,7 @@ whiteBtn.addEventListener('click', () => {
     guess.push("lightgoldenrodyellow")
     calculateGuess()
 })
-//2D array for guess board
-let circles = Array.from(document.querySelectorAll(".guess"))
-let guessElements = circles.map(el => {
-    return el.children
-})
+
 // //2D array for feedback board
 
 
