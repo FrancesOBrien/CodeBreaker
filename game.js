@@ -28,7 +28,7 @@ let displayCode = () => {
 }
 
 getCode(colors)
-console.log(secret) //comment this out when going live or people can inspect and cheat!
+// console.log(secret) //comment this out when going live or people can inspect and cheat!
 displayCode() //loads the secret code into the solution div
 
 //update getFeedback():
@@ -250,7 +250,7 @@ playAgainBtn.addEventListener("click", () => {
 //end game modals
 
 //you win modal
-//when feedback row is all red
+//when feedback row is all red and no black
 //switch cover display to none and solution display to flex
 //pop up modal with you win message
 //Play again? button with restart functionality
