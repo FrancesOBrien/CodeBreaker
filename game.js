@@ -28,7 +28,7 @@ let displayCode = () => {
 }
 
 getCode(colors)
-// console.log(secret) //comment this out when going live or people can inspect and cheat!
+console.log(secret) //comment this out when going live or people can inspect and cheat!
 displayCode() //loads the secret code into the solution div
 
 //update getFeedback():
