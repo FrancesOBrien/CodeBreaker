@@ -28,21 +28,12 @@ let displayCode = () => {
 }
 
 getCode(colors)
-console.log(secret) //comment this out when going live or people can inspect and cheat!
+// console.log(secret) //comment this out when going live or people can inspect and cheat!
 displayCode() //loads the secret code into the solution div
 
-//update getFeedback():
-//I want to check each element in a guess[] for two conditions
-//conditionRed = this color is in correct index :
-//create a for loop that checks for this condition and store that condition in an array variable
-//conditionWhite = this color is included in the code[], but in a different index
-//create the nested for loop that checks for this condition and store that condition in an array variable
-//if an element satisfies both conditions, I only want conditionRed to be expressed, conditionWhite should be muted
-//add both array variables into one array variable
-
-//also, each element of the guess array should only produce one element in the clue array
-function getFeedback(guess, secret){
-    const feedback = []
+//getFeedback compares the guess[] to the code[] and creates feedback[], which is stored in the global variable clues, which is then used to update the feedback DOM. This function compares Each element of the guess for 2 conditions, which eliminates a feedback problem I had in earlier versions where a correct color, correct position could possibly give a red and a black dot.
+function getFeedback(guess, secret){ 
+    const feedback = [] 
     guess.forEach((element, index) => {
         if (element === secret[index] && secret.includes(element)){
             feedback.push('red')
@@ -56,43 +47,11 @@ function getFeedback(guess, secret){
     feedback.reverse()
     return feedback
 }
-//SQUEEEEEEIDIDIT
-//generate feedback
-//function getFeedback compares guess[] to secret[] and generates feedback array of strings stored in global variable clues[]
-// function getFeedback(guess, secret) {
-// const feedback = []
-//     for (let i = 0; i < 4; i++) {
-//         if (guess[i] == secret[i]){
-//             feedback.push('red')
-//         }
-//     }
-//     for (let i = 0; i < 4; i++){
-//         for (let j = 0; j < 4; j++ ){
-//             if (i !== j){
-//                 if (guess[i] == secret[j]) {
-//                     feedback.push('white')
-//                 }
-//             } 
-//         }
-//     }
-//     feedback.sort() //sorts the array so all reds appear first
-//     feedback.slice(0,3) //cuts the feedback off at 4 elements to avoid excess whites
-//     return feedback
-// }
+
 //clues is a global variable that contains the feedback array
 let clues = getFeedback(guess, secret)
 
-//every time user enters guess, guessCount++
-//if guessIndex == 10, game over
-
-// function checkWin(){
-//     let win = true
-//     for (let i = 0; i < clues.length; i++){
-//         if (clues[i] !== 'red') {
-//             win = false
-//         } 
-//     return win
-// }}
+//check win checks the feedback row and if there is no red or if it includes black you win. adding blanchedalmond to getFeedback fixed a situation where an empty feedback row resulted in a win modal (because no red)
 function checkWin(){
     let win = true
     for (let i = 0; i < clues.length; i++){
@@ -102,11 +61,11 @@ function checkWin(){
     } return win
 }
 
-
 //calculate guess: 
 //function to record each guess on a separate guessIndex in the array of guesses
 //then update the DOM so guesses appear as colors
 //then update the DOM so the feedback clues appear as colors
+//then check for a win
 //then move to the next guessIndex after 4 guesses
 
 let calculateGuess = () => {
@@ -136,7 +95,7 @@ let calculateGuess = () => {
     } }
 
 
-//2D array for guess board
+//2D array for guess board so the guess changes the guessIndex row in the DOM
 
 let circles = Array.from(document.querySelectorAll(".guess"))
 let guessElements = circles.map(el => {
@@ -151,7 +110,7 @@ let updateGuessDOM = () => {
         }
     }
 }
-
+//feedback array and circles to update the feedback row in the DOM
 let reply = Array.from(document.querySelectorAll(".feedback"))
 let feedbackElements = reply.map(el => {
     // console.log(el.children)
@@ -195,20 +154,7 @@ whiteBtn.addEventListener('click', () => {
     calculateGuess()
 })
 
-
-// console.log(feedbackElements)
-
-//struggling with feedback display, let's psuedocode out the goals:
-//when the guess[] is completed, ie, when the guess[3] is entered via click on color button, I need to compare that 4-element array to the 4-element array called code[] stored in the global variable secret.
-//for every index that matches between code[] and guess[], one circle in the feedback row should display red
-//for every color included in the guess[] that is also included in the code[], but is not in the same index, one circle in the feedback row should display white
-//that will display the feedback for that guess
-//i++ moves on to the next guess 
-//checkWin() => 
-//if the feedback displays all red, the game is over with a "you win" modal that reveals the solution div
-//if the feedback does not display all red on the 10th guess, game is over with a "you lose" modal that reveals the solution div
-
-
+//other buttons and modals
 //restart button
 const restartBtn = document.getElementById("restartBtn");
 restartBtn.addEventListener("click", () => {
@@ -247,20 +193,3 @@ const playAgainBtn = document.getElementById("playAgainBtn");
 playAgainBtn.addEventListener("click", () => {
     window.location.reload();
 })
-//end game modals
-
-//you win modal
-//when feedback row is all red and no black
-//switch cover display to none and solution display to flex
-//pop up modal with you win message
-//Play again? button with restart functionality
-//bonus--if you win in 5 or fewer guesses, add "impressive!" message
-//bonus--if you win in the final guess, add "phew" message
-
-//you lose modal
-//when guessIndex = 10 (ie, you have submitted the 10th guess, guessIndex[9]):
-//switch cover display to none and solution display to flex
-//pop up modal with you fail message
-//hint: a red dot means one of your guess colors is correct, but 
-//Try again? button with restart functionality
-
